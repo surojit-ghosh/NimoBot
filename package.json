@@ -1,0 +1,11 @@
+{
+  "name": "nimo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/iamsurojit/Nimo.git",
+  "author": "iamsurojit <iamsurojit@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.6.0"
+  }
+}
