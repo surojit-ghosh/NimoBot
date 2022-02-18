@@ -1,4 +1,4 @@
-import guildModel from '../models/guild.js';
+import guildModel from '../../models/guild.js';
 let cooldown = {};
 
 export default {

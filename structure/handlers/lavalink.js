@@ -1,8 +1,9 @@
 import { Manager } from 'erela.js';
 import chalk from 'chalk';
+import { readdirSync } from 'fs';
 
 const lavalink = (client) => {
-    return new Manager({
+    const manager = new Manager({
         nodes: [client.config.lavalink],
         send(id, payload) {
             const guild = client.guilds.cache.get(id);
@@ -20,7 +21,27 @@ const lavalink = (client) => {
     }).on("nodeError", (node, error) => {
         console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` node errored :: ${node.options.identifier}`));
         setTimeout(() => node.connect(), 1 * 60 * 1000);
+    }).on("playerCreate", (player) => {
+        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` player has been created in :: ${player.guild}`));
+    }).on("playerDestroy", (player) => {
+        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` player has been destroyed in :: ${player.guild}`));
     });
+
+
+    readdirSync('./events/lavalink').filter((file) => file.endsWith('.js')).forEach((file) => {
+        import('../../events/lavalink/' + file).then((event) => {
+            event = event?.default;
+            if (!event?.run) return;
+            event.name = event.name || file.replace('.js', '');
+            try {
+                manager.on(event.name, event.run.bind(null, client));
+            } catch (error) {
+                console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` error while executing :: ${file}`));
+            };
+        });
+    });
+
+    return manager;
 };
 
 export default lavalink;

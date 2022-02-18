@@ -1,0 +1,1 @@
+export { default as pannel } from './functions/pannel.js';

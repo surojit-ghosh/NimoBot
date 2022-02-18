@@ -2,8 +2,8 @@ import { readdirSync } from 'fs';
 import chalk from 'chalk';
 
 const events = (client) => {
-    readdirSync('./events').filter((file) => file.endsWith('.js')).forEach((file) => {
-        import('../../events/' + file).then((event) => {
+    readdirSync('./events/client').filter((file) => file.endsWith('.js')).forEach((file) => {
+        import('../../events/client/' + file).then((event) => {
             event = event?.default;
             if (!event?.run) return console.log(chalk.bgRed(` [Event] `) + chalk.red(` unable to load :: ${file}`));
             event.name = event.name || file.replace('.js', '');

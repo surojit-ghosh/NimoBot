@@ -15,4 +15,4 @@ export default {
         password: process.env.LAVALINK_PASSWORD || '',
         secure: true
     }
-}
+};
