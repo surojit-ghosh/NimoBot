@@ -1,27 +1,29 @@
 {
-  "name": "nimo",
+  "name": "nimobot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm i --prefix dashboard/client && npm i && npm run build --prefix dashboard/client && node index.js",
+    "start": "npm i && npm i --prefix dashboard/client && npm run build --prefix dashboard/client && node index.js",
     "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iamsurojit/Nimo.git"
+    "url": "git+https://github.com/iamsurojit/NimoBot.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/iamsurojit/Nimo/issues"
+    "url": "https://github.com/iamsurojit/NimoBot/issues"
   },
-  "homepage": "https://github.com/iamsurojit/Nimo#readme",
+  "homepage": "https://github.com/iamsurojit/NimoBot#readme",
   "dependencies": {
+    "chalk": "^5.0.0",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "mongoose": "^6.2.2",
     "path": "^0.12.7"
   },
   "devDependencies": {
