@@ -56,15 +56,6 @@ export default {
         let res;
         try {
             res = await player.search(search, message.author);
-            if (res.loadType === "LOAD_FAILED") {
-                if (!player.queue.current) player.destroy();
-                return message.reply({
-                    embeds: [{
-                        color: client.color.error,
-                        description: 'Unable to load the track'
-                    }]
-                });
-            };
         } catch (error) {
             return message.reply({
                 embeds: [{
@@ -96,28 +87,33 @@ export default {
                     });
                 }
             case "TRACK_LOADED":
-                player.queue.add(res.tracks[0]);
+                var track = res.tracks[0];
+                player.queue.add(track);
                 if (!player.playing && !player.paused && !player.queue.size) return player.play();
+                let embed = new MessageEmbed()
+                    .setColor(client.color.default)
+                    .setThumbnail(track.displayThumbnail())
+                    .description(`Added [${track.title}](${track.uri}) to thr queue`)
+                    .setTimestamp();
+                return message.reply({ embeds: [embed] });
             case 'PLAYLIST_LOADED':
                 player.queue.add(res.tracks);
                 if (!player.playing && !player.paused && player.queue.totalSize === res.tracks.length) player.play();
-                const embed = new MessageEmbed()
+                const playlistEmbed = new MessageEmbed()
+                    .setAuthor({ name: 'Playlist added to queue', iconURL: client.user.displayAvatarURL() })
                     .setColor(client.color.default)
-                    .setTimestamp()
-                    .setDescription(`**Added playlist to queue** ${res.tracks.length} Songs [${res.playlist.name}](${search})`)
-                return message.channel.send({ embeds: [embed] });
+                    .setDescription(`Added ${res.tracks.length} songs to queue from [${res.playlist.name}](${search})`)
+                    .setTimestamp();
+                return message.channel.send({ embeds: [playlistEmbed] });
             case 'SEARCH_RESULT':
                 player.queue.add(res.tracks[0]);
-                if (!player.playing && !player.paused && !player.queue.size) {
-                    return player.play();
-                } else {
-                    const thing = new MessageEmbed()
-                        .setColor(client.embedColor)
-                        .setTimestamp()
-                        .setThumbnail(track.displayThumbnail("hqdefault"))
-                        .setDescription(`**Added song to queue**\n[${track.title}](${track.uri})`)
-                    return message.channel.send({ embeds: [thing] });
-                }
+                if (!player.playing && !player.paused && !player.queue.size) return player.play();
+                const searchEmbed = new MessageEmbed()
+                    .setColor(client.color.default)
+                    .setThumbnail(track.displayThumbnail())
+                    .description(`Added [${track.title}](${track.uri}) to thr queue`)
+                    .setTimestamp();
+                return message.channel.send({ embeds: [searchEmbed] });
         };
     }
 };
