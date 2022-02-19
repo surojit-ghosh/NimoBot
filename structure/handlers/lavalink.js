@@ -22,9 +22,9 @@ const lavalink = (client) => {
         console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` node errored :: ${node.options.identifier}`));
         setTimeout(() => node.connect(), 1 * 60 * 1000);
     }).on("playerCreate", (player) => {
-        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` player has been created in :: ${player.guild}`));
+        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` player has been created in :: ${player.guild}`));
     }).on("playerDestroy", (player) => {
-        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` player has been destroyed in :: ${player.guild}`));
+        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` player has been destroyed in :: ${player.guild}`));
     });
 
 

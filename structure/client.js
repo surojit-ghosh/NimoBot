@@ -4,7 +4,7 @@ import { loadCommands, loadEvents, loadSlashCommands, connectDB, lavalinkManager
 
 export default class extends Client {
     constructor() {
-        super({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS'] });
+        super({ intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_VOICE_STATES'] });
 
         ['commands', 'slashCommands', 'aliases'].forEach((i) => this[i] = new Collection());
         this.config = config;

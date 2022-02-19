@@ -4,8 +4,10 @@ dotenv.config({ path: './config.env' });
 export default {
     token: process.env.TOKEN || '',
     db: process.env.DB || '',
+    prefix: '?',
 
     color: {
+        default: '00FFFF',
         error: 'RED'
     },
     lavalink: {
@@ -15,4 +17,11 @@ export default {
         password: process.env.LAVALINK_PASSWORD || '',
         secure: true
     }
+    // lavalink: {
+    //     id: 'Main',
+    //     host: 'disbotlistlavalink.ml',
+    //     port: 443,
+    //     password: 'LAVA',
+    //     secure: true
+    // }
 };
