@@ -67,25 +67,21 @@ export default {
 
         switch (res.loadType) {
             case "LOAD_FAILED":
-                if (!player.queue.current) {
-                    player.destroy();
-                    return message.reply({
-                        embeds: [{
-                            color: client.color.error,
-                            description: 'Unable to load the track'
-                        }]
-                    });
-                }
+                if (!player.queue.current) player.destroy();
+                return message.reply({
+                    embeds: [{
+                        color: client.color.error,
+                        description: 'Unable to load the track'
+                    }]
+                });
             case "NO_MATCHES":
-                if (!player.queue.current) {
-                    player.destroy();
-                    return message.reply({
-                        embeds: [{
-                            color: client.color.error,
-                            description: `No matches found for - ${search}`
-                        }]
-                    });
-                }
+                if (!player.queue.current) player.destroy();
+                return message.reply({
+                    embeds: [{
+                        color: client.color.error,
+                        description: `No matches found for - ${search}`
+                    }]
+                });
             case "TRACK_LOADED":
                 var track = res.tracks[0];
                 player.queue.add(track);
