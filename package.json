@@ -5,8 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm i && npm i --prefix dashboard/client && npm run build --prefix dashboard/client && node index.js",
-    "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\""
+    "start": "npm run build --prefix dashboard/client && node index.js",
+    "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\"",
+    "install": "npm i && npm i --prefix dashboard/client"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,6 @@
   },
   "homepage": "https://github.com/iamsurojit/NimoBot#readme",
   "dependencies": {
-    "chalk": "^5.0.0",
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "erela.js": "^2.3.3",

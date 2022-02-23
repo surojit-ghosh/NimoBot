@@ -1,5 +1,3 @@
-import chalk from "chalk";
-
 export default {
     name: 'interactionCreate',
     run: async (client, interaction) => {
@@ -13,7 +11,7 @@ export default {
             try {
                 if (command) await command.run(client, interaction);
             } catch (err) {
-                console.log(chalk.red(err));
+                console.log(err);
                 return interaction.followUp(`Something went wrong while executing the command.`);
             };
         };

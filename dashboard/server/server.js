@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import chalk from "chalk";
 
 const app = express();
 const port = 5000;
@@ -11,4 +10,4 @@ app.get('*', (req, res) => {
     res.sendFile(path.resolve('dashboard/client/build/index.html'));
 });
 
-app.listen(port, () => console.log(chalk.bgGreen(` [Server] `) + chalk.green(` running at http://localhost:${port}`)));
+app.listen(port, () => console.log(`Server running at http://localhost:${port}`));

@@ -1,5 +1,4 @@
 import { Manager } from 'erela.js';
-import chalk from 'chalk';
 import { readdirSync } from 'fs';
 
 const lavalink = (client) => {
@@ -10,21 +9,21 @@ const lavalink = (client) => {
             if (guild) guild.shard.send(payload);
         }
     }).on("nodeConnect", (node) => {
-        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` node connected :: ${node.options.identifier}`));
+        console.log(`[lavalink] node connected :: ${node.options.identifier}`);
     }).on("nodeCreate", (node) => {
-        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` node created :: ${node.options.identifier}`));
+        console.log(`[lavalink] node created :: ${node.options.identifier}`);
     }).on("nodeReconnect", (node) => {
-        console.log(chalk.bgGreen(` [lavalink] `) + chalk.red(` node reconnecting... :: ${node.options.identifier}`));
+        console.log(`[lavalink] node reconnecting... :: ${node.options.identifier}`);
     }).on("nodeDisconnect", (node) => {
-        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` node disconnected :: ${node.options.identifier}`));
+        console.log(`[lavalink] node disconnected :: ${node.options.identifier}`);
         setTimeout(() => node.connect(), 1 * 60 * 1000);
     }).on("nodeError", (node, error) => {
-        console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` node errored :: ${node.options.identifier}`));
+        console.log(`[lavalink] node errored :: ${node.options.identifier}`);
         setTimeout(() => node.connect(), 1 * 60 * 1000);
     }).on("playerCreate", (player) => {
-        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` player has been created in :: ${player.guild}`));
+        console.log(`[lavalink] player has been created in :: ${player.guild}`);
     }).on("playerDestroy", (player) => {
-        console.log(chalk.bgGreen(` [lavalink] `) + chalk.green(` player has been destroyed in :: ${player.guild}`));
+        console.log(`[lavalink] player has been destroyed in :: ${player.guild}`);
     });
 
 
@@ -36,7 +35,7 @@ const lavalink = (client) => {
             try {
                 manager.on(event.name, event.run.bind(null, client));
             } catch (error) {
-                console.log(chalk.bgRed(` [lavalink] `) + chalk.red(` error while executing :: ${file}`));
+                console.log(`[lavalink] error while executing :: ${file}`);
             };
         });
     });

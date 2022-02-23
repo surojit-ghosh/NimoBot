@@ -17,11 +17,4 @@ export default {
         password: process.env.LAVALINK_PASSWORD || '',
         secure: true
     }
-    // lavalink: {
-    //     id: 'Main',
-    //     host: 'disbotlistlavalink.ml',
-    //     port: 443,
-    //     password: 'LAVA',
-    //     secure: true
-    // }
 };
