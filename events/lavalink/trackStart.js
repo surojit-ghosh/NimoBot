@@ -11,18 +11,17 @@ export default {
             .setTimestamp();
 
         const row = new MessageActionRow()
-            .addComponents(new MessageButton()
-                .setCustomId('play_pause')
-                .setStyle('SECONDARY')
-                .setEmoji('⏯️'),
-                new MessageButton()
-                    .setCustomId('stop')
-                    .setStyle('SECONDARY')
-                    .setEmoji('⏹'),
-                new MessageButton()
-                    .setCustomId('skip')
-                    .setStyle('SECONDARY')
-                    .setEmoji('⏭️'));
-        client.channels.cache.get(player.textChannel).send({ embeds: [embed], components: [row] });
+            .addComponents(
+                new MessageButton().setStyle('SECONDARY').setEmoji('⏯️').setCustomId('play_pause'),
+                new MessageButton().setStyle('SECONDARY').setEmoji('⏹').setCustomId('stop'),
+                new MessageButton().setStyle('SECONDARY').setEmoji('⏭️').setCustomId('skip'),
+                new MessageButton().setStyle('SECONDARY').setEmoji('🔈').setCustomId('volume_decrease'),
+                new MessageButton().setStyle('SECONDARY').setEmoji('🔊').setCustomId('volume_increase')
+            );
+        let channel = await client.channels.cache.get(player.textChannel);
+        let message = await channel.send({ embeds: [embed], components: [row] });
+        client.setNowPlayingMessage(message);
+
+        // message.
     }
 };

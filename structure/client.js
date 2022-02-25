@@ -2,6 +2,7 @@ import { Client, Collection, Message } from 'discord.js';
 import { readdirSync } from 'fs';
 import mongoose from "mongoose";
 import { Manager } from 'erela.js';
+import chalk from 'chalk';
 
 import config from '../config.js';
 
@@ -13,11 +14,11 @@ export default class extends Client {
         this.config = config;
         this.color = config.color;
 
-        // connect to mongoDB
+        // connect to mongodb
         mongoose.connect(config.db).then((db) => {
-            console.log(`[Database] connected :: ${db.connections[0].name}`);
+            console.log(`Database connected :: ${db.connections[0].name}`);
         }).catch((err) => {
-            console.log(`[Database] error while connecting to database :: ${err.message}`);
+            console.log(chalk.red(`Error while connecting to database :: ${err.message}`));
         });
 
         // load commands
@@ -25,7 +26,7 @@ export default class extends Client {
             readdirSync('./commands/' + folder).filter((file) => file.endsWith('.js')).forEach((command) => {
                 import('../commands/' + folder + '/' + command).then((cmd) => {
                     cmd = cmd.default;
-                    if (!cmd.run) return console.log(`[Command] unable to load :: ${command}`);
+                    if (!cmd.run) return console.log(chalk.red(`[Command] unable to load :: ${command}`));
                     cmd.name = cmd.name || command.replace('.js', '');
                     cmd.category = cmd.category || folder;
                     console.log(`[Command] successfully loaded :: ${command}`);
@@ -40,7 +41,7 @@ export default class extends Client {
             readdirSync('./slashCommands/' + folder).filter((file) => file.endsWith('.js')).forEach((command) => {
                 import('../slashCommands/' + folder + '/' + command).then((cmd) => {
                     cmd = cmd.default;
-                    if (!cmd.run || !cmd.data) return console.log(`[Slash Command] unable to load the :: ${command}`);
+                    if (!cmd.run || !cmd.data) return console.log(chalk.red(`[Slash Command] unable to load the :: ${command}`));
                     let name = cmd.data.name || command.replace('.js', '');
                     cmd.category = cmd.category || folder;
                     console.log(`[Slash Command] successfully loaded :: ${command}`);
@@ -53,50 +54,72 @@ export default class extends Client {
         readdirSync('./events/client').filter((file) => file.endsWith('.js')).forEach((file) => {
             import('../events/client/' + file).then((event) => {
                 event = event?.default;
-                if (!event?.run) return console.log(`[Event] unable to load :: ${file}`);
+                if (!event?.run) return console.log(chalk.red(`[Event] unable to load :: ${file}`));
                 event.name = event.name || file.replace('.js', '');
                 try {
                     this.on(event.name, event.run.bind(null, this));
                     console.log(`[Event] successfully loaded :: ${file}`);
                 } catch (error) {
-                    console.log(`[Event] error while executing :: ${file}`);
+                    console.log(chalk.red(`[Event] error while executing :: ${file}`));
                 }
             });
         });
 
-        this.on("disconnect", () => console.log("Bot is disconnecting..."))
-            .on("reconnecting", () => console.log("Bot reconnecting..."))
-            .on('warn', (error) => console.log(error))
-            .on('error', (error) => console.log(error));
-
-        process.on('unhandledRejection', (error) => console.log(error))
-            .on('uncaughtException', (error) => console.log(error));
-
+        // connect lavalink
+        const client = this;
         this.manager = new Manager({
             nodes: [config.lavalink],
             send(id, payload) {
-                const guild = this.guilds.cache.get(id);
+                const guild = client.guilds.cache.get(id);
                 if (guild) guild.shard.send(payload);
             }
-        }).on("nodeConnect", (node) => console.log(`[lavalink] node connected :: ${node.options.identifier}`))
-            .on("nodeCreate", (node) => console.log(`[lavalink] node created :: ${node.options.identifier}`))
-            .on("nodeReconnect", (node) => console.log(`[lavalink] node reconnecting... :: ${node.options.identifier}`))
-            .on("playerCreate", (player) => console.log(`[lavalink] player has been created in :: ${player.guild}`))
-            .on("playerDestroy", (player) => console.log(`[lavalink] player has been destroyed in :: ${player.guild}`))
+        });
+
+        // lavalink events
+        this.manager.on("nodeConnect", (node) => console.log(`[Lavalink] node connected :: ${node.options.identifier}`))
+            .on("nodeCreate", (node) => console.log(`[Lavalink] node created :: ${node.options.identifier}`))
+            .on("nodeReconnect", (node) => console.log(`[Lavalink] node reconnecting... :: ${node.options.identifier}`))
+            .on("playerCreate", (player) => console.log(`[Lavalink] player has been created in :: ${player.guild}`))
+            .on("playerDestroy", (player) => console.log(`[Lavalink] player has been destroyed in :: ${player.guild}`))
             .on("nodeDisconnect", (node) => {
-                console.log(`[lavalink] node disconnected :: ${node.options.identifier}`);
+                console.log(chalk.red(`[Lavalink] node disconnected :: ${node.options.identifier}`));
                 setTimeout(() => node.connect(), 1 * 60 * 1000);
-            }).on("nodeError", (node, error) => {
-                console.log(`[lavalink] node errored :: ${node.options.identifier}`);
+            })
+            .on("nodeError", (node, error) => {
+                console.log(chalk.red(`[Lavalink] node errored :: ${node.options.identifier}`));
                 setTimeout(() => node.connect(), 1 * 60 * 1000);
             });
 
+        // load lavalink events
+        readdirSync('./events/lavalink').filter((file) => file.endsWith('.js')).forEach((file) => {
+            import('../events/lavalink/' + file).then((event) => {
+                event = event?.default;
+                if (!event?.run) return console.log(chalk.red(`[Lavalink] unable to load :: ${file}`));
+                event.name = event.name || file.replace('.js', '');
+                try {
+                    this.manager.on(event.name, event.run.bind(null, this));
+                } catch (error) {
+                    console.log(chalk.red(`[Lavalink] error while executing :: ${file}`));
+                }
+            });
+        });
+
+        // client events
+        this.on("disconnect", () => console.log(chalk.red("Bot is disconnecting...")))
+            .on("reconnecting", () => console.log("Bot reconnecting..."))
+            .on('warn', (error) => console.log(chalk.red(error)))
+            .on('error', (error) => console.log(chalk.red(error)));
+
+        // node events
+        process.on('unhandledRejection', (error) => console.log(chalk.red(error)))
+            .on('uncaughtException', (error) => console.log(chalk.red(error)));
+
         super.login(config.token);
     };
-
     /**
-    * @param {Message} message
-    */
+     * now playing message
+     * @param {Message} message
+     */
     setNowPlayingMessage(mesage) {
         if (this.nowPlayingMessage && this.nowPlayingMessage.deletable) this.nowPlayingMessage.delete();
         return (this.nowPlayingMessage = mesage);
