@@ -108,7 +108,7 @@ export default {
                 const searchEmbed = new MessageEmbed()
                     .setColor(client.color.default)
                     .setThumbnail(track.displayThumbnail())
-                    .setDescription(`Added [${track.title}](${track.uri}) to thr queue`)
+                    .setDescription(`Added [${track.title}](${track.uri}) to the queue`)
                     .setTimestamp();
                 return message.channel.send({ embeds: [searchEmbed] });
         };
