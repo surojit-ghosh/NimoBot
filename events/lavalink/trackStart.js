@@ -22,6 +22,21 @@ export default {
         let message = await channel.send({ embeds: [embed], components: [row] });
         client.setNowPlayingMessage(message);
 
-        // message.
+        const collector = message.createMessageComponentCollector({
+            filter: (m) => {
+                if (m.guild.me.voice.channel && m.guild.me.voice.channelId === m.member.voice.channelId) return true;
+                else {
+                    m.reply({
+                        embeds: [{
+                            color: client.color.error,
+                            description: `You must be in the same voice channel as me to use this button`
+                        }],
+                        ephemeral: true
+                    });
+                    return false;
+                };
+            },
+            time: track.duration
+        });
     }
 };
