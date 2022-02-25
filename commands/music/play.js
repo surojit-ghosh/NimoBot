@@ -102,12 +102,13 @@ export default {
                     .setTimestamp();
                 return message.channel.send({ embeds: [playlistEmbed] });
             case 'SEARCH_RESULT':
-                player.queue.add(res.tracks[0]);
+                var track = res.tracks[0];
+                player.queue.add(track);
                 if (!player.playing && !player.paused && !player.queue.size) return player.play();
                 const searchEmbed = new MessageEmbed()
                     .setColor(client.color.default)
                     .setThumbnail(track.displayThumbnail())
-                    .description(`Added [${track.title}](${track.uri}) to thr queue`)
+                    .setDescription(`Added [${track.title}](${track.uri}) to thr queue`)
                     .setTimestamp();
                 return message.channel.send({ embeds: [searchEmbed] });
         };
