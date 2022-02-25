@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "npm run build --prefix dashboard/client && node index.js",
-    "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\"",
-    "install": "npm i && npm i --prefix dashboard/client"
+    "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\""
   },
   "repository": {
     "type": "git",

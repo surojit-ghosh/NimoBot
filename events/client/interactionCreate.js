@@ -1,7 +1,7 @@
 export default {
     name: 'interactionCreate',
     run: async (client, interaction) => {
-        if (!interaction.isCommand()) {
+        if (interaction.isCommand()) {
             await interaction.deferReply().catch(err => { })
 
             const { commandName } = interaction;
