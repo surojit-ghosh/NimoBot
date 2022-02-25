@@ -38,5 +38,19 @@ export default {
             },
             time: track.duration
         });
+
+        collector.on("collect", async (i) => {
+            await i.deferReply({
+                ephemeral: false
+            });
+
+            if (i.customId == 'play_pause') {
+                if (!player) return collector.stop();
+                player.pause(!player.paused);
+                let text = player.paused ? `Paused` : `Resumed`;
+                i.editReply({ embeds: [{ color: client.color.default, description: `Player **${text}**` }] });
+                setTimeout(() => { i.deleteReply(); }, 3 * 1000);
+            }
+        });
     }
 };
