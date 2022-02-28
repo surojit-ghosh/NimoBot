@@ -1,7 +1,7 @@
 import { MessageEmbed, MessageActionRow, MessageButton } from 'discord.js';
 
 export default {
-    run: async (client, player, track, payload) => {
+    run: async (client, player, track, playload) => {
         const embed = new MessageEmbed()
             .setColor(client.color.default)
             .setAuthor({ name: `Now playing`, iconURL: client.user.displayAvatarURL() })
