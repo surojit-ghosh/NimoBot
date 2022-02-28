@@ -12,18 +12,19 @@ export default {
     aliases: ['p'],
     description: 'Play a song or a playlist',
     run: async (client, message, args) => {
-        const { channel } = message.member.voice;
-        if (!message.guild.me.permissionsIn(channel).has(['CONNECT', 'SPEAK'])) return message.reply({
-            embeds: [{
-                color: client.color.error,
-                description: 'I need `CONNECT` and `SPEAK` permission in `' + channel.name + '`'
-            }]
-        });
+        const channel = message.member.voice?.channel;
 
         if (!channel) return message.reply({
             embeds: [{
                 color: client.color.error,
                 description: 'You must be in a voice channel to play something'
+            }]
+        });
+
+        if (!message.guild.me.permissionsIn(channel).has(['CONNECT', 'SPEAK'])) return message.reply({
+            embeds: [{
+                color: client.color.error,
+                description: 'I need `CONNECT` and `SPEAK` permission in `' + channel.name + '`'
             }]
         });
 
