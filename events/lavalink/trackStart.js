@@ -6,7 +6,7 @@ export default {
             .setColor(client.color.default)
             .setAuthor({ name: `Now playing`, iconURL: client.user.displayAvatarURL() })
             .setThumbnail(player.queue.current.displayThumbnail())
-            .setDescription(`Playing [${track.title}](${track.uri})`)
+            .setDescription(`[${track.title}](${track.uri})`)
             .setFooter({ text: `Requested by: ${track.requester.username}#${track.requester.discriminator}` });
 
         const row = new MessageActionRow()
