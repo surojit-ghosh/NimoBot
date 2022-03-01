@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm run build --prefix dashboard/client && node index.js",
-    "dev": "concurrently \"nodemon index.js\" \"npm run start --prefix dashboard/client\""
+    "start": "concurrently \"npm run build --prefix dashboard && npm run start --prefix dashboard\" \"node index.js\"",
+    "dev": "concurrently \"nodemon index.js\" \"npm run dev --prefix dashboard\""
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,7 @@
     "dotenv": "^16.0.0",
     "erela.js": "^2.3.3",
     "express": "^4.17.3",
-    "mongoose": "^6.2.2",
-    "path": "^0.12.7"
+    "mongoose": "^6.2.2"
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
