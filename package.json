@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "concurrently -n 'web,bot' -c 'yellow,green' \"cd dashboard && npm run build && npm run start\" \"node index.js\"",
-    "dev": "concurrently -n 'web,bot' -c 'yellow,green' \"npm run dev --prefix dashboard\" \"nodemon index.js\""
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
