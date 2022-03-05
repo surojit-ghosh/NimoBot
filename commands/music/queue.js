@@ -1,14 +1,14 @@
 export default {
-    name: 'clear',
+    name: 'queue',
     category: 'music',
-    usage: 'clear',
+    usage: 'queue',
     cooldown: 10 * 1000,
     permissions: {
         client: [],
         author: []
     },
     aliases: [],
-    description: 'Clear the server queue',
+    description: 'Display all the songs in the queue',
     run: async (client, message, args) => {
         let player = await client.manager.get(message.guild.id);
         if (!player || !player?.queue || !player?.queue.length || player?.queue.length === 0) return message.reply({
