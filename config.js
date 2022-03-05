@@ -4,7 +4,7 @@ dotenv.config({ path: './config.env' });
 export default {
     token: process.env.TOKEN || '',
     db: process.env.DB || '',
-    prefix: '?',
+    prefix: 'n!',
 
     color: {
         default: '00FFFF',

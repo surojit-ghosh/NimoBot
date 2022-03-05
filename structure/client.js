@@ -116,11 +116,12 @@ export default class extends Client {
 
         super.login(config.token);
     };
+
     /**
      * now playing message
      * @param {Message} message
      */
-    setNowPlayingMessage(mesage) {
+    setNowPlayingMessage(mesage = null) {
         if (this.nowPlayingMessage && this.nowPlayingMessage.deletable) this.nowPlayingMessage.delete();
         return (this.nowPlayingMessage = mesage);
     };
