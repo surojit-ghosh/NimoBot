@@ -10,5 +10,7 @@ export default {
         });
 
         client.setNowPlayingMessage();
+        player.pause(false);
+        player.destroy()
     }
 };
