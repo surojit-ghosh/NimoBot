@@ -7,7 +7,7 @@ export default {
             activities: [{ name: `${client.config.prefix}play`, type: 'LISTENING' }]
         });
 
-        client.user.setAvatar('./assets/avatar.jpg');
+        // client.user.setAvatar('./assets/avatar.jpg');
 
         client.manager.init(client.user.id);
     }
