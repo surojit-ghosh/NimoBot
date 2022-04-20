@@ -1,5 +1,5 @@
 export default {
-    name: 'loop',
+    name: 'loopqueue',
     category: 'music',
     usage: 'disconnect',
     cooldown: 10 * 1000,
@@ -7,7 +7,8 @@ export default {
         client: [],
         author: []
     },
-    aliases: ['repeat'],
+    // djRole: true,
+    aliases: ['repeat', 'loopall'],
     description: 'Loop the current queue',
     run: async (client, message, args) => {
         let player = await client.manager.get(message.guild.id);

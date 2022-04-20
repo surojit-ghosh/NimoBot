@@ -7,7 +7,7 @@ export default {
                 description: 'Error when loading song!'
             }]
         });
-        console.log(`Error when loading song! Track is stuck in [${player.guild}]`);
+        console.log(`Error when loading song! Track is stuck in ${player.guild}`);
         if (!player.voiceChannel) player.destroy();
     }
 };

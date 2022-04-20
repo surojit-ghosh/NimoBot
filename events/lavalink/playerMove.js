@@ -21,7 +21,7 @@ export default {
                     description: 'Player voice channel moved to <#' + newChannel + '>'
                 }]
             });
-            // if (player.paused) player.pause(false);
+            if (player.paused) player.pause(false);
         }
     }
 };

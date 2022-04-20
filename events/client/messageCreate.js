@@ -28,17 +28,27 @@ export default {
                     description: `I need ${Permissions.join(', ')} permission(s) to execute the command!`,
                 }]
             }).catch(() => { });
-        }
+        };
 
         if (command.permissions?.author) {
             const Permissions = command.permissions.author.filter((x) => !message.member.permissions.has(x)).map((x) => '`' + x + '`');
             if (Permissions.length) return message.channel.send({
                 embeds: [{
                     color: client.color.error,
-                    description: `You need ${Permissions.join(', ')} permission(s) to execute this command!`,
+                    description: `You need ${Permissions.join(', ')} permission(s) to execute this command!`
                 }]
             }).catch(() => { });
-        }
+        };
+
+        if (command.djRole) {
+            let djRole = await (guildData?.djRole ? (await message.guild.roles.cache.get(guildData?.djRole)) : (await message.guild.roles.cache.find((r) => r.name.toLowerCase() === 'dj')));
+            if (!message.member.roles.cache.has(djRole?.id)) return message.reply({
+                embeds: [{
+                    color: client.color.error,
+                    description: `You need the \`${djRole?.name || `dj`}\` role to use this command or you can set a role as \`dj\` role using \`${client.prefix}setdj\` command`
+                }]
+            });
+        };
 
         let uCooldown = cooldown[message.author.id];
         if (!uCooldown) {
@@ -54,6 +64,6 @@ export default {
         });
         cooldown[message.author.id][command.name] = Date.now() + command.cooldown;
 
-        if (command) command.run(client, message, args);
+        if (command) return command.run(client, message, args);
     }
 }

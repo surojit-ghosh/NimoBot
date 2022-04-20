@@ -7,6 +7,7 @@ export default {
         client: [],
         author: []
     },
+    // djRole: true,
     aliases: [],
     description: 'Clear the server queue',
     run: async (client, message, args) => {

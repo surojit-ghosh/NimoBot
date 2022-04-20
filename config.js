@@ -14,8 +14,7 @@ export default {
     lavalink: {
         id: 'Main',
         host: process.env.LAVALINK_HOST || '',
-        port: parseInt(process.env.LAVALINK_PORT) || 443,
-        password: process.env.LAVALINK_PASSWORD || '',
-        secure: true
+        port: parseInt(process.env.LAVALINK_PORT) || 2333,
+        password: process.env.LAVALINK_PASSWORD || ''
     }
 };

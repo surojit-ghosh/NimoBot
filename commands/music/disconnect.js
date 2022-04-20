@@ -7,6 +7,7 @@ export default {
         client: [],
         author: []
     },
+    // djRole: true,
     aliases: ['dc'],
     description: 'Stop the music and leave the voice channel',
     run: async (client, message, args) => {

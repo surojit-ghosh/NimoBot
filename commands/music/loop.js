@@ -7,6 +7,7 @@ export default {
         client: [],
         author: []
     },
+    // djRole: true,
     aliases: ['repeat'],
     description: 'Loop the current track',
     run: async (client, message, args) => {
